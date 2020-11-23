@@ -15,7 +15,25 @@ namespace ShoppingCart.Application.Services
         public ProductsService(IProductsRepositroy productsRepositroy) 
         {
             _productsRepo = productsRepositroy;
-        } 
+        }
+
+        public ProductViewModel GetProduct(Guid id) 
+        {
+            var myProduct = _productsRepo.GetProduct(id);
+            ProductViewModel myModel = new ProductViewModel();
+            myModel.Description = myProduct.Description;
+            myModel.Imageurl = myProduct.ImageUrl;
+            myModel.Name = myProduct.Name;
+            myModel.Price = myProduct.Price;
+            myModel.Id = myProduct.Id;
+            myModel.Category = new CategoryViewModel()
+            {
+                Id = myProduct.Category.Id,
+                Name = myProduct.Category.Name
+            };
+
+            return myModel;
+        }
 
         public IQueryable<ProductViewModel> GetProducts()
         {
@@ -29,7 +47,8 @@ namespace ShoppingCart.Application.Services
                            Description = p.Description,
                            Name = p.Name,
                            Price = p.Price,
-                           Category = new CategoryViewModel() { Id = p.Category.Id, Name = p.Category.Name }
+                           Category = new CategoryViewModel() { Id = p.Category.Id, Name = p.Category.Name },
+                           Imageurl = p.ImageUrl
                        };
             return list;
         }
