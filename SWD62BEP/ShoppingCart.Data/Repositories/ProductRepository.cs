@@ -31,12 +31,21 @@ namespace ShoppingCart.Data.Repositories
             _context.SaveChanges();
         }
 
+       /* public void DisableProduct(Guid id) 
+        {
+
+            var p = GetProduct(id);
+            p.Disable = true;
+            _context.SaveChanges();
+
+        }*/
+
         public Product GetProduct(Guid id)
         {
             //Single or default will return ONE product or null
             return _context.products.SingleOrDefault(x => x.Id == id);
         }
-
+      
         public IQueryable<Product> GetProducts()
         {
             return _context.products;

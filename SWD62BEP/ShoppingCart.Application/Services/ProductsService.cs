@@ -1,6 +1,7 @@
 ﻿using ShoppingCart.Application.Interfaces;
 using ShoppingCart.Application.ViewModels;
 using ShoppingCart.Domain.Interfaces;
+using ShoppingCart.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,30 @@ namespace ShoppingCart.Application.Services
         public ProductsService(IProductsRepositroy productsRepositroy) 
         {
             _productsRepo = productsRepositroy;
+        }
+
+        public void AddProduct(ProductViewModel product)
+        {
+            Product newProduct = new Product()
+            {
+                Description = product.Description,
+                Name = product.Name,
+                Price = product.Price,
+                CategoryId = product.Category.Id,
+                ImageUrl = product.Imageurl
+            };
+
+            _productsRepo.AddProduct(newProduct);
+        }
+
+        public void DeleteProduct(Guid id)
+        {
+            var pToDelete = _productsRepo.GetProduct(id);
+            if (pToDelete != null) 
+            {
+                _productsRepo.DeleteProduct(pToDelete);
+            }
+            
         }
 
         public ProductViewModel GetProduct(Guid id) 
